@@ -1,0 +1,27 @@
+/* .page{
+    display: flex;
+    flex-direction: row;
+} */
+
+.pageContainer {
+    display: flex;
+    justify-content: center;
+}
+
+.page {
+    list-style: none;
+    margin: 15px;
+    border-radius: 10px;
+}
+
+.pagination{
+    padding-top: 70px;
+}
+
+.pageNumber{
+    display: inline-block;
+}
+
+.pageNumber:active{
+    background-color: black;
+}

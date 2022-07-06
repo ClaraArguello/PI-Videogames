@@ -1,69 +1,91 @@
 require("dotenv").config();
-const {Videogame, Genre } = require('../db')
+const { Videogame, Genre } = require("../db");
 const axios = require("axios");
 
 const { API_KEY } = process.env;
 
-let videogameModel= {
+let videogameModel = {
+
+  videogames: [], 
+  genres:[],
+  allPlatforms:[],
+
   getVideogamesApi: async function () {
     try {
       let videogamesArray = [];
       let url = `https://api.rawg.io/api/games?key=${API_KEY}`;
-      for(let i = 0; i < 5; i++){
-        var response = (
-            await axios.get(url)
-          ).data;
+      for (let i = 0; i < 5; i++) {
+        var response = (await axios.get(url)).data;
         response.results.map((vg) => {
-            videogamesArray.push( {
-              name: vg.name,
-              id: vg.id,
-              image: vg.background_image,
-              released: vg.released,
-              rating: vg.rating,
-              platforms: vg.platforms.map((p) => {
-                return p.platform.name;
-              }),
-              genres: vg.genres.map((g) => {
-                return g.name;
-              })
-            })
+          videogamesArray.push({
+            name: vg.name,
+            id: vg.id,
+            image: vg.background_image,
+            released: vg.released,
+            rating: vg.rating,
+            platforms: vg.platforms.map((p) => {
+              if(!videogameModel.allPlatforms.includes(p.platform.name)){
+                videogameModel.allPlatforms.push(p.platform.name)
+              }
+              return p.platform.name;
+            }),
+            genres: vg.genres.map((g) => {
+              return g.name;
+            }),
           });
+        });
         url = response.next;
       }
-      return videogamesArray;
+      videogameModel.videogames = [...videogamesArray];
     } catch (error) {
-        return error.message;
+      return error.message;
     }
-    
   },
 
-  getVideogamesDb: async function(){
+  getVideogamesDb: async function () {
     try {
-        return await Videogame.findAll({
-            include:{
-               model: Genre,
-               attributes: ['name'],
-               through:{
-                    attributes: [],
-               }
-            }
-        })
+      const videogameDb = await Videogame.findAll({
+        include: Genre,
+      });
+      const videogameJSON = videogameDb.map((vg) => vg.toJSON());
+
+      const videogame = videogameJSON.map((v) => {
+        return {
+          name: v.name,
+          image: v.background_image,
+          description: v.description,
+          id: v.id,
+          released: v.released,
+          rating: v.rating,
+          platforms: v.platforms.map((p) => {
+            return p;
+          }),
+          genres: v.genres.map((g) => {
+            return g.name;
+          }),
+        };
+      });
+      return videogame;
     } catch (error) {
-        return error.message;
+      return error.message;
     }
   },
 
-  getAllVideogames: async function(){
-    const apiInfo = await videogameModel.getVideogamesApi();
-    const dbInfo = await videogameModel.getVideogamesDb();
-    const info = apiInfo.concat(dbInfo);
-    return info;
+  getAllVideogames: async function () {
+    // const dbInfo = await videogameModel.getVideogamesDb();
+    // var allVideogames = [...videogameModel.videogames,...dbInfo]
+    // videogameModel.videogames = [...allVideogames];
+    // allVideogames = [];
+    return videogameModel.videogames;
   },
 
   getVideogamesSearch: async function (name) {
     try {
       const response = (
-        await axios.get(`https://api.rawg.io/api/games?search=${name}&key=${API_KEY}`)).data.results.splice(0, 15);
+        await axios.get(
+          `https://api.rawg.io/api/games?search=${name}&key=${API_KEY}`
+        )
+      ).data.results.splice(0, 15);
       if (response.length == 0) {
         throw new Error("No results found");
       } else {
@@ -71,10 +93,14 @@ let videogameModel= {
           return {
             name: vg.name,
             id: vg.id,
+            image: vg.background_image,
             released: vg.released,
             rating: vg.rating,
             platforms: vg.platforms.map((p) => {
               return p.platform.name;
+            }),
+            genres: vg.genres.map((g) => {
+              return g.name;
             }),
           };
         });
@@ -93,58 +119,67 @@ let videogameModel= {
       return {
         name: videogame.name,
         image: videogame.background_image,
-        description: videogame.description,
+        description: videogame.description_raw,
         id: videogame.id,
         released: videogame.released,
         rating: videogame.rating,
         platforms: videogame.platforms.map((p) => {
           return p.platform.name;
         }),
+        genres: videogame.genres.map(g =>{
+          return g.name;
+        })
       };
+  
     } catch (error) {
       return error.message;
     }
   },
 
-  getGenres: async function(){
-    const genreArray = [];
+  getGenres: async function () {
     try {
-        const response = (await axios.get(`https://api.rawg.io/api/genres?key=${API_KEY}`)).data.results;
-        response.map((g) => {
-            genreArray.push(g.name);
-            return {
-                name: g.name,
-                id: g.id,
-            };
-        });
-        for (let i = 0; i < genreArray.length; i++) {
-            await Genre.findOrCreate({
-                where: {name: genreArray[i]}
-            });
-        }
-        return genreArray;
-        
-    } catch (error) {
-        return error.message;
-    }
-   },
+      const response = (
+        await axios.get(`https://api.rawg.io/api/genres?key=${API_KEY}`)
+      ).data.results;
 
-   createVideogame: async function (videogame){
+      const arrayGenre = response.map((g) => {
+        return {
+          id: g.id,
+          name: g.name,
+        };
+      });
+
+      for (let i = 0; i < arrayGenre.length; i++) {
+        await Genre.findOrCreate({
+          where: arrayGenre[i],
+        });
+      }
+      return arrayGenre;
+   
+    } catch (error) {
+      return error.message;
+    }
+  },
+
+  getPlatforms: async function (){
+    return videogameModel.allPlatforms;
+  },
+
+  createVideogame: async function (videogame) {
     try {
       await Videogame.create({
-        name:videogame.name,
+        name: videogame.name,
         description: videogame.description,
         release: videogame.release,
-        rating:videogame.rating,
+        rating: videogame.rating,
         image: videogame.image,
         genres: videogame.genres,
         createdInDb: videogame.createdInDb,
-      })
+      });
     } catch (error) {
-        return error.message;
+      return error.message;
     }
   },
-  
 };
 
 module.exports = videogameModel;

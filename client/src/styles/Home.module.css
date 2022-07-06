@@ -1,0 +1,89 @@
+.home{
+    background-image: linear-gradient(rgba(0,0,0,.5),rgba(0,0,0,.9)),url('../img/backgroundCards.jpg');
+    background-size: cover;
+    height: 260vh;
+    background-position: center;
+    position: relative;
+	background-attachment: fixed;
+}
+
+.navBar{
+    position: fixed;
+	left: 0;
+	top:0;
+	background-color: rgba(255,255,255,.8);
+	width: 100%;
+	box-shadow: 0 2px 2px #efefef;
+	z-index: 1;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.create{
+    text-decoration: none;
+    color: #000;
+    margin-right: 40px;
+    margin-left: 380px;
+    transition: border-bottom 0.2s;
+    padding: 5px 0;
+    border-bottom: 2px solid transparent;
+}
+
+.create:hover{
+    border-bottom: 2px solid #006494;
+}
+
+.cards{
+    position: absolute;
+    display: flex;
+    margin-top: 75px;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.card{
+    margin: 0px 15px;
+    text-decoration: none;
+}
+
+.loader {
+    width: 60%;
+    height: 4px;
+    border-radius: 30px;
+    background-color: rgba(0,0,0,0.2);
+    position: relative;
+}
+
+.loader::before {
+    content: "";
+    position: absolute;
+    background: #0071e2;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 100%;
+    border-radius: 30px;
+    animation: moving 1s ease-in-out infinite;
+    
+}
+
+@keyframes moving {
+    50% {
+    width: 100%;
+}
+
+    100% {
+    width: 0;
+    right: 0;
+    left: unset;
+    }
+}
+
+.paginate{
+    display: flex;
+    flex-direction: row;
+    padding-top: 100px;
+}
