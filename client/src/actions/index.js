@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export function getVideogames(){
     return async function(dispatch){
-        var json = await axios.get('http://localhost:3001/videogames',{});
+        var json = await axios.get('http://localhost:3001/videogames');
         return dispatch({
             type: 'GET_VIDEOGAMES',
             payload: json.data
@@ -12,7 +12,7 @@ export function getVideogames(){
 
 export function getGenres(){
     return async function(dispatch){
-        var info = await axios.get('http://localhost:3001/genres',{});
+        var info = await axios.get('http://localhost:3001/genres');
         return dispatch({
             type: 'GET_GENRES',
             payload: info.data
@@ -21,12 +21,13 @@ export function getGenres(){
 }
 
 export function postVideogame(payload){
-    return async function(dispatch){
-        const response = await axios.post('http://localhost:3001/videogames',payload);
-        return {
-            type: 'POST_VIDEOGAME',
-            response
-        };
+    return async function(){
+        try {
+            const response = await axios.post('http://localhost:3001/videogames',payload);
+            alert('Videogame created');
+        } catch (error) {
+            alert(error.message);
+        }
     }
 }
 
@@ -45,7 +46,6 @@ export function getVideogameName(name){
 }
 
 export function getDetail (id){
-    
     return async function (dispatch){
         var json = (await axios.get(`http://localhost:3001/videogames/${id}`)).data;
         return dispatch({
@@ -108,5 +108,14 @@ export function applyFilters (filters){
     return function(dispatch){
         if(filters.origin)dispatch(filterOrigin(filters.origin));
         if(filters.genre !== 'all')dispatch(filtersGenre(filters.genre));
+    }
+}
+
+export function sortBy(order){
+    return function(dispatch){
+        dispatch({
+            type: 'SORT',
+            payload: order
+        })
     }
 }

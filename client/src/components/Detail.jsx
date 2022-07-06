@@ -16,29 +16,44 @@ export default function Detail(props){
             dispatch(clearDetail())
         }
     },[dispatch]);
-    console.log(myVideogame)
 
     return(
        <div>
-        <Link to='/videogames'>
-            Go back
-        </Link>
+        
         {
             myVideogame.name?
-            <div>
-                <h1>{myVideogame.name}</h1>
-                <img src = {myVideogame.image} />
-                <h4>Description: {myVideogame.description}</h4>
-                <h4>Release date: {myVideogame.released}</h4>
-                <h4>Rating: {myVideogame.rating}</h4>
-                <h4>Genres: {myVideogame.createdInDb? myVideogame.genres.map(g=> g.name + (' | '))
-                    :
-                    myVideogame.genres.map(g => g + (' | '))}</h4>
-                <h4>Platforms: {myVideogame.platforms.map(p => p + (' | '))}</h4>
-
+            <div className={s.card}>
+                <div className={s.container}>
+                    <div className={s.firstLine}>
+                        <div className={s.link}>
+                            <Link to='/videogames' className={s.btn}>
+                                Go back
+                            </Link>
+                        </div>
+                        <div className={s.text}>
+                            <h1 className={s.title}>{myVideogame.name}</h1>
+                        </div>
+                    </div>
+                    <img src = {myVideogame.image} className={s.img}/>
+                    
+                    <br />
+                    <h4>RELEASE DATE: {myVideogame.released}</h4>
+                    <br />
+                    <h4>RATING: {myVideogame.rating}</h4>
+                    <br />
+                    <h4>GENRES: {myVideogame.createdInDb? myVideogame.genres.map(g=> g.name + (' | '))
+                        :
+                        myVideogame.genres.map(g => g + (' | '))}</h4>
+                    <br />
+                    <h4>PLATFORMS: {myVideogame.platforms.map(p => p + (' | '))}</h4>
+                    <br />
+                    <h4>DESCRIPTION: {myVideogame.description}</h4>
+                </div>
             </div>
             :
-            <div className={s.loader}> </div>
+            <div  className={s.details}>
+                <div className={s.loader}> </div>
+            </div>
         }
        </div>
     )

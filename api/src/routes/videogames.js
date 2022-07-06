@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { getAllVideogames, getVideogamesSearch, getVideogamesDb } = require('../Controllers/controllers');
+const { getVideogamesSearch, getVideogamesDb, returnApiVideogames } = require('../Controllers/controllers');
 // Importar todos los routers;
 // Ejemplo: const authRouter = require('./auth.js');
 const controllers = require('../Controllers/controllers')
@@ -11,22 +11,21 @@ const router = Router();
 router.get('/', async (req,res) => {
     const {name} = req.query;
     let dbVg = await getVideogamesDb();
-    let allVg = await getAllVideogames();
+    let apiVg = await returnApiVideogames();
     try {
         if(name){
             const vgName = await getVideogamesSearch(name);
-            res.status(200).send(vgName)
+            res.status(200).send(vgName);
         }else{
-            res.status(200).send([...allVg,...dbVg]);
+            res.status(200).send([...apiVg,...dbVg]);
         }
     } catch (error) {
-        res.status(404).send(error);
+        res.status(404).send(error.message);
     }
 })
 
 router.get('/:id', async (req,res) =>{
     const { id } = req.params;
-    // const videogame = await controllers.getVideogameById(id);
     try{
         if(id.includes('-')){
             return res.send(await Videogame.findByPk(id, {include: Genre}))
@@ -48,28 +47,50 @@ router.post('/', async(req,res) =>{
         genres,
         platforms,
     } = req.body;
-    
-    // if(!name || !description || platforms.length === 0|| genres.length === 0){
-    //     res.status(400).send("Couldn't create videogame");
-    // }
 
-    let videogameCreated = await Videogame.create({
-        name,
-        description,
-        released,
-        rating,
-        platforms,
-    });
+    if(!name || !description || platforms.length <= 0 || genres.length <= 0){
+        return res.status(400).send('Mandatory parameters must be completed');
+    }
     
-    await genres.map(async (g)=> {
-        let gen = await Genre.findAll({
-            where: {name: g}
-        })
-        await videogameCreated.addGenres(gen)
+    var vgDb = await Videogame.findOne({
+        where: {name: name}
     })
+    if(vgDb.name){
+        return res.status(409).send('Already exists')
+    }
 
+    var api = await getVideogamesSearch(name);
+    if(api.length > 0){
+        var vgApi = api.find(vg => vg.name.toLowerCase() === name.toLowerCase())
+        if(vgApi){
+            return res.status(409).send('Already exists')
+        }
+        
+    }
+    
 
-    res.status(200).send('Videogame created successfully');
+    try {
+        let videogameCreated = await Videogame.create({
+            name,
+            description,
+            released,
+            rating,
+            platforms,
+        });
+        
+        await genres.map(async (g)=> {
+            let gen = await Genre.findAll({
+                where: {name: g}
+            })
+            await videogameCreated.addGenres(gen)
+        })
+    
+    
+        res.status(200).send('Videogame created successfully');
+    } catch (error) {
+        res.status
+    }
+    
 })
 
 module.exports = router;

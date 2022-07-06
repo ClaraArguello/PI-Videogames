@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getVideogames,pagination } from "../actions";
+import { getGenres, getVideogames,pagination } from "../actions";
 import { Link } from 'react-router-dom';
 import Card from "./Card";
 import SearchBar from "./SearchBar";
@@ -23,9 +23,11 @@ export default function Home(){
         indexOfLastVg
     );
     const paginate = (pageNumber) => dispatch(pagination(pageNumber));
+    console.log(allVideogames)
 
     useEffect(()=>{
         dispatch(getVideogames());
+        dispatch(getGenres())
     },[dispatch]);
 
     return(

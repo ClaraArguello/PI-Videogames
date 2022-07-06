@@ -71,11 +71,7 @@ let videogameModel = {
     }
   },
 
-  getAllVideogames: async function () {
-    // const dbInfo = await videogameModel.getVideogamesDb();
-    // var allVideogames = [...videogameModel.videogames,...dbInfo]
-    // videogameModel.videogames = [...allVideogames];
-    // allVideogames = [];
+  returnApiVideogames: async function () {
     return videogameModel.videogames;
   },
 
@@ -85,9 +81,9 @@ let videogameModel = {
         await axios.get(
           `https://api.rawg.io/api/games?search=${name}&key=${API_KEY}`
         )
-      ).data.results.splice(0, 15);
-      if (response.length == 0) {
-        throw new Error("No results found");
+      ).data.results;
+      if (response.length === 0) {
+        return [];
       } else {
         return response.map((vg) => {
           return {
@@ -151,7 +147,7 @@ let videogameModel = {
 
       for (let i = 0; i < arrayGenre.length; i++) {
         await Genre.findOrCreate({
-          where: arrayGenre[i],
+          where: {name: arrayGenre[i].name},
         });
       }
       return arrayGenre;
@@ -165,21 +161,6 @@ let videogameModel = {
     return videogameModel.allPlatforms;
   },
 
-  createVideogame: async function (videogame) {
-    try {
-      await Videogame.create({
-        name: videogame.name,
-        description: videogame.description,
-        release: videogame.release,
-        rating: videogame.rating,
-        image: videogame.image,
-        genres: videogame.genres,
-        createdInDb: videogame.createdInDb,
-      });
-    } catch (error) {
-      return error.message;
-    }
-  },
 };
 
 module.exports = videogameModel;
