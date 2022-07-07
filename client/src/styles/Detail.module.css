@@ -1,5 +1,5 @@
 .card{
-    background-image: linear-gradient(rgba(0,0,0,.3),rgba(0,0,0,.7)),url('../img/background-create.jpg');
+    background-image: linear-gradient(rgba(0,0,0,.3),rgba(0,0,0,.7)),url('../img/backgroundDetail.jpg');
     height: auto;
     min-height: 100vh;
     background-size: cover;
@@ -11,8 +11,8 @@
     flex-direction: column;
 }
 
-.details{
-    background-image: linear-gradient(rgba(0,0,0,.3),rgba(0,0,0,.7)),url('../img/background-create.jpg');
+.load{
+    background-image: linear-gradient(rgba(0,0,0,.3),rgba(0,0,0,.7)),url('../img/backgroundDetail.jpg');
     height: 100vh;
     background-size: cover;
     background-position: center;
@@ -70,8 +70,8 @@
 .img{
     width: 250px;
     height: auto;
-    padding-bottom: 10px;
     border-radius: 10px;
+    margin-bottom: 10px;
 }
 
 

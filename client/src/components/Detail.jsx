@@ -1,4 +1,4 @@
-import React,{ useState, useEffect } from "react";
+import React,{ useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { clearDetail, getDetail } from "../actions/index";
 import { useDispatch, useSelector } from "react-redux";
@@ -34,8 +34,7 @@ export default function Detail(props){
                             <h1 className={s.title}>{myVideogame.name}</h1>
                         </div>
                     </div>
-                    <img src = {myVideogame.image} className={s.img}/>
-                    
+                    <img src = {myVideogame.image} className={s.img} alt=''/>
                     <br />
                     <h4>RELEASE DATE: {myVideogame.released}</h4>
                     <br />
@@ -51,7 +50,7 @@ export default function Detail(props){
                 </div>
             </div>
             :
-            <div  className={s.details}>
+            <div  className={s.load}>
                 <div className={s.loader}> </div>
             </div>
         }

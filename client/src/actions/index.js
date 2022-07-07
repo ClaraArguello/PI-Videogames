@@ -23,7 +23,7 @@ export function getGenres(){
 export function postVideogame(payload){
     return async function(){
         try {
-            const response = await axios.post('http://localhost:3001/videogames',payload);
+            await axios.post('http://localhost:3001/videogames',payload);
             alert('Videogame created');
         } catch (error) {
             alert(error.message);

@@ -30,7 +30,7 @@ export default function SearchBar (){
                 className={s.search}
                 value={name}
             />
-            <button type="submit" className={s.btn}><img src={fcPng}  className={s.img}/></button>
+            <button type="submit" className={s.btn}><img src={fcPng} alt='' className={s.img}/></button>
         </form>
     )
 }

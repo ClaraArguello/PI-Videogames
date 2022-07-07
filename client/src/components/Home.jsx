@@ -23,7 +23,6 @@ export default function Home(){
         indexOfLastVg
     );
     const paginate = (pageNumber) => dispatch(pagination(pageNumber));
-    console.log(allVideogames)
 
     useEffect(()=>{
         dispatch(getVideogames());
@@ -36,13 +35,13 @@ export default function Home(){
                 <SearchBar />
                 <Link to='/create' className={s.create}>Create videogame</Link>
             </div>
-            <div className={s.paginate}>
-                <button onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1?true:false}>Prev</button>
-                <Pagination gamesPerPage={vgPerPage} totalGames={allVideogames.length} paginate={paginate} className={s.pages} currentPage={currentPage}/>
-                <button onClick={() => paginate(currentPage + 1)} disabled={currentVg.length < 15?true:false}>Next</button>
-            </div>
             <div>
                 <Filters paginate={paginate}/>
+            </div>
+            <div className={s.paginate}>
+                <button className={s.pageBtn} onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1?true:false}>Prev</button>
+                <Pagination gamesPerPage={vgPerPage} totalGames={allVideogames.length} paginate={paginate} className={s.pages} currentPage={currentPage}/>
+                <button className={s.pageBtn} onClick={() => paginate(currentPage + 1)} disabled={currentVg.length < 15?true:false}>Next</button>
             </div>
             <div className={s.cards}>
             {currentVg?currentVg.map(el =>{

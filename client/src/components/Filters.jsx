@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { applyFilters, getGenres, sortBy } from '../actions';
 import { useDispatch, useSelector } from 'react-redux';
+import s from '../styles/Filters.module.css';
 
 function Filters({paginate}) {
     
     const dispatch = useDispatch();
     const genre = useSelector(state => state.genres);
-    console.log(genre)
 
     const [ filters, setFilters] = useState({
         origin:'all',
@@ -43,24 +43,24 @@ function Filters({paginate}) {
 
   return (
     <div>
-        <form onSubmit={(e)=> handleSubmit(e)}>
-            <label>Origin:</label>
-            <select onChange={e => handleOnChange(e)} value={filters.origin} id='origin'>
+        <form className={s.filters} onSubmit={(e)=> handleSubmit(e)}>
+            <label className={s.label}>Origin:</label>
+            <select className={s.select} onChange={e => handleOnChange(e)} value={filters.origin} id='origin'>
                 <option value="all">All</option>
                 <option value="api">Existing</option>
                 <option value="created">Created</option>
             </select>
-            <label>Genres:</label>
-            <select onChange={e => handleOnChange(e)} value={filters.genre} id='genre'>
+            <label className={s.label}>Genres:</label>
+            <select className={s.select} onChange={e => handleOnChange(e)} value={filters.genre} id='genre'>
                 <option value="all">All</option>
                 
                 {genre&&genre.map(g =>(
-                    <option value={g.name}>{g.name}</option>
+                    <option value={g.name} key={g.name}>{g.name}</option>
                     ))}
             </select>
-            <button type='submit'>Apply Filters</button>
-            <label>Order:</label>
-            <select value={order} onChange={(e) => handleChangeOrder(e)}>
+            <button className={s.btn} type='submit'>Apply Filters</button>
+            <label className={s.label}>Order:</label>
+            <select className={s.select} value={order} onChange={(e) => handleChangeOrder(e)}>
                 <option value="not order">Not order</option>
                 <option value="a-z">A-Z</option>
                 <option value="z-a">Z-A</option>

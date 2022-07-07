@@ -53,13 +53,21 @@
 .form{
     display: flex;
     flex-direction: column;
-    width: 300px;
+    width: 350px;
 }
 
 .item{
     margin: 5px 0px;
     display: flex;
     align-items: center;
+    flex-direction: column;
+}
+
+.fill{
+    display: flex;
+    flex-direction: row;
+    width: 350px;
+    margin: 7px 0px;
 }
 
 .input{
@@ -68,7 +76,6 @@
     background-color: transparent;
     width: 100%;
     box-sizing: border-box;
-    /* margin: 10px 0px; */
     padding-inline: 0.5em;
     padding-block: 0.5em;
     border: none;
@@ -154,4 +161,8 @@
 
 .selName{
     margin: 0px 5px;
+}
+
+.error{
+    color:rgb(202, 1, 1);
 }

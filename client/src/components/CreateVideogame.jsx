@@ -1,5 +1,5 @@
 import React,{ useState, useEffect } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { postVideogame, getGenres } from "../actions";
 import { useDispatch, useSelector } from "react-redux";
 import s from '../styles/CreateVideogame.module.css';
@@ -119,8 +119,8 @@ export default function CreateVideogame(){
           return setErrors({description:
             "Description required. Between 5 and 200 characters"})
         }
-        if (input.rating < 1 || input.rating > 10 || !noEmpty.test(input.rating) ) {
-            return setErrors({rating: "Number required. Between 1 and 10"})
+        if (input.rating < 1 || input.rating > 5 || !noEmpty.test(input.rating) ) {
+            return setErrors({rating: "Number required. Between 1 and 5"})
         }
         if(input.image){
             if (!validateUrl.test(input.image)) {
@@ -154,81 +154,92 @@ export default function CreateVideogame(){
             </div>
             <form onSubmit={e => handleSubmit(e)} className={s.form}>
                 <div className={s.item}>
-                    <label>Name:</label>
-                    <input 
-                        type="text" 
-                        value={input.name}
-                        name='name'
-                        onChange={e => handleChange(e)}
-                        className={s.input}
-                        placeholder='Name'
-                    />
-                    <div>
+                    <div className={s.fill}>
+                        <label>Name:</label>
+                        <input 
+                            type="text" 
+                            value={input.name}
+                            name='name'
+                            onChange={e => handleChange(e)}
+                            className={s.input}
+                            placeholder='Name'
+                            />
+                    </div>
+                    <div className={s.error}>
                         {errors.name && (
-                            <p>{errors.name}</p>
+                            <p  className={s.error}>{errors.name}</p>
                         )}
                     </div>
                 </div>
                 <div className={s.item}>
-                    <label>Description:</label>
-                    <input 
-                        type="text" 
-                        value={input.description}
-                        name='description'
-                        onChange={e => handleChange(e)}
-                        className={s.input}
-                        placeholder='Description'
-                    />
-                    <div>
+                    <div className={s.fill}>
+                        <label>Description:</label>
+                        <input 
+                            type="text" 
+                            value={input.description}
+                            name='description'
+                            onChange={e => handleChange(e)}
+                            className={s.input}
+                            placeholder='Description'
+                            />
+                    </div>
+                    <div className={s.error}>
                         {errors.description && (
                             <p>{errors.description}</p>
                         )}
                     </div>
                 </div>
                 <div className={s.item}>
-                    <label>Release date:</label>
-                    <input 
-                        type="date" 
-                        value={input.released}
-                        name='released'
-                        onChange={e => handleChange(e)}
-                        className={s.input}
-                    />
-                    <div>
+                    <div className={s.fill}>
+                        <label>Release date:</label>
+                        <input 
+                            type="date" 
+                            value={input.released}
+                            name='released'
+                            onChange={e => handleChange(e)}
+                            className={s.input}
+                        />
+                    </div>
+                    <div className={s.error}>
                         {errors.released && (
                             <p>{errors.released}</p>
                         )}
                     </div>
                 </div>
                 <div className={s.item}>
-                    <label>Rating:</label>
-                    <input 
-                        type="number" 
-                        step='0.1'
-                        value={input.rating}
-                        name='rating'
-                        min={1}
-                        onChange={e => handleChange(e)}
-                        className={s.input}
-                        placeholder='Rating'
-                    />
-                    <div>
+                    <div className={s.fill}>
+                        <label>Rating:</label>
+                        <input 
+                            type="number" 
+                            step='0.1'
+                            value={input.rating}
+                            name='rating'
+                            min={1}
+                            max={5}
+                            onChange={e => handleChange(e)}
+                            className={s.input}
+                            placeholder='Rating'
+                        />
+                    </div>
+                    <div className={s.error}>
                         {errors.rating && (
                             <p>{errors.rating}</p>
                         )}
                     </div>
                 </div>
                 <div className={s.item}>
-                    <label>Image:</label>
-                    <input 
-                        type="text" 
-                        value={input.image}
-                        name='image'
-                        onChange={e => handleChange(e)}
-                        className={s.input}
-                        placeholder='Image'
-                    />
-                    <div>
+                    <div className={s.fill}>
+                        <label>Image:</label>
+                        <input 
+                            type="text" 
+                            value={input.image}
+                            name='image'
+                            onChange={e => handleChange(e)}
+                            className={s.input}
+                            placeholder='Image'
+                        />
+                    </div>
+                    <div className={s.error}>
                         {errors.image && (
                             <p>{errors.image}</p>
                         )}
@@ -244,7 +255,7 @@ export default function CreateVideogame(){
                                     ))}
                             </select>  
                         </div>
-                        <div>
+                        <div className={s.error}>
                             {errors.genres && (
                                 <p>{errors.genres}</p>
                             )}
@@ -269,9 +280,9 @@ export default function CreateVideogame(){
                                     ))}
                             </select>
                         </div>
-                        <div>
+                        <div className={s.error}>
                             {errors.platforms && (
-                                <p>{errors.platforms}</p>
+                                <p  className={s.error}>{errors.platforms}</p>
                             )}
                         </div>
                         <div className={s.bottom}>

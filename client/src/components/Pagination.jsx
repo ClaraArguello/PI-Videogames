@@ -9,10 +9,10 @@ function Pagination({ gamesPerPage, totalGames, paginate, currentPage }) {
   }
 
   return (
-    <nav>
+    <nav className={s.pagin}>
       {pageNumber.map((number) => (
         <div className={s.pageNumber} key={number}>
-          <button onClick={() => paginate(number)} disabled={currentPage===number?true:false}>{number}</button>
+          <button className={currentPage === number? `${s.numberActive}`: `${s.number}` } onClick={() => paginate(number)} >{number}</button>
         </div>
       ))}
     </nav>
