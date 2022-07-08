@@ -59,7 +59,7 @@ function Filters({paginate}) {
                     <option value={g.name} key={g.name}>{g.name}</option>
                     ))}
             </select>
-            <button className={s.btn} type='submit'>Apply Filters</button>
+            <button className={s.btn} type='submit'>{filters.origin === 'all' && filters.genre === 'all'? 'Refresh':'Apply Filters'}</button>
             <label className={s.label}>Order:</label>
             <select className={s.select} value={order} onChange={(e) => handleChangeOrder(e)}>
                 <option value="not order">Not order</option>

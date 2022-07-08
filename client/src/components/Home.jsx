@@ -26,9 +26,16 @@ export default function Home(){
 
     const paginate = (pageNumber) => dispatch(pagination(pageNumber));
 
+    function verify(){
+        if(allVideogames.length <= 0){
+            dispatch(getVideogames());
+            dispatch(getGenres());
+        }
+    }
+
     useEffect(()=>{
-        dispatch(getVideogames());
-        dispatch(getGenres())
+       verify();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     },[dispatch]);
 
     function load(){
@@ -36,7 +43,7 @@ export default function Home(){
             if(currentVg.length <= 0){
                 setLoading(false);
             }
-        }, 5000);
+        }, 10000);
     }
 
     load();
