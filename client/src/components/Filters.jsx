@@ -34,7 +34,8 @@ function Filters({paginate}) {
     function handleChangeOrder(e){
         e.preventDefault();
         setOrder(e.target.value)
-        dispatch(sortBy(e.target.value))
+        dispatch(sortBy(e.target.value));
+        paginate(1);
     }
 
     useEffect(() => {

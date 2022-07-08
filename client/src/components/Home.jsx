@@ -22,12 +22,24 @@ export default function Home(){
         indexOfFirstVg,
         indexOfLastVg
     );
+    const [ loading, setLoading ] = useState(true);
+
     const paginate = (pageNumber) => dispatch(pagination(pageNumber));
 
     useEffect(()=>{
         dispatch(getVideogames());
         dispatch(getGenres())
     },[dispatch]);
+
+    function load(){
+        setTimeout(() => {
+            if(currentVg.length <= 0){
+                setLoading(false);
+            }
+        }, 5000);
+    }
+
+    load();
 
     return(
         <div className={s.home}>
@@ -44,7 +56,8 @@ export default function Home(){
                 <button className={s.pageBtn} onClick={() => paginate(currentPage + 1)} disabled={currentVg.length < 15?true:false}>Next</button>
             </div>
             <div className={s.cards}>
-            {currentVg?currentVg.map(el =>{
+            {currentVg.length > 0?currentVg.map(el =>{
+                
                 return (
                     <div className={s.card} key={el.id}>
                         <Link to={'/videogames/' +el.id} key={el.id} className={s.card}>
@@ -52,8 +65,13 @@ export default function Home(){
                         </Link>
                     </div>
                 );
-            }) :
-            <div className={s.loader}></div>
+            }) : loading?
+            <div className={s.loaderContainer}>
+                <div className={s.loader}> </div>
+            </div>:
+            <div className={s.loaderContainer}>
+                <h2>Not videogame found</h2>
+            </div>
             }
         </div>
         </div>

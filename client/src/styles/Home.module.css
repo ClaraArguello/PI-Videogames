@@ -49,8 +49,20 @@
     text-decoration: none;
 }
 
+.loaderContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    margin-top: 100px;
+}
+
+.loaderContainer h2{
+    color: #fff;
+}
+
 .loader {
-    width: 60%;
+    width: 10%;
     height: 4px;
     border-radius: 30px;
     background-color: rgba(0,0,0,0.2);

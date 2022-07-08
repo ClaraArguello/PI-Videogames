@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { getVideogamesSearch, getVideogamesDb, returnApiVideogames } = require('../Controllers/controllers');
+const { getVideogamesSearch, getVideogamesDb, returnApiVideogames, getVideogamesApi } = require('../Controllers/controllers');
 // Importar todos los routers;
 // Ejemplo: const authRouter = require('./auth.js');
 const controllers = require('../Controllers/controllers')
@@ -55,7 +55,8 @@ router.post('/', async(req,res) =>{
     var vgDb = await Videogame.findOne({
         where: {name: name}
     })
-    if(vgDb.name){
+
+    if(vgDb){
         return res.status(409).send('Already exists')
     }
 
@@ -68,7 +69,6 @@ router.post('/', async(req,res) =>{
         
     }
     
-
     try {
         let videogameCreated = await Videogame.create({
             name,

@@ -39,7 +39,8 @@ export default function CreateVideogame(){
     }, [dispatch]);
 
     useEffect(() => {
-        change && validate()
+        change && validate();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     },[input])
 
 
@@ -74,7 +75,7 @@ export default function CreateVideogame(){
         setInput({
             ...input,
             [name]: input[name].filter(gen => gen !== g)
-        })
+        });
     }
 
     const handleSubmit = (e) => {
@@ -91,9 +92,11 @@ export default function CreateVideogame(){
             description: '',
             released: '',
             rating: '',
+            image: '',
             genres:[],
             platforms: [],
-        })
+        });
+        setChange(false)
 
     }
 
@@ -163,6 +166,7 @@ export default function CreateVideogame(){
                             onChange={e => handleChange(e)}
                             className={s.input}
                             placeholder='Name'
+                            autoComplete="off"
                             />
                     </div>
                     <div className={s.error}>
@@ -181,6 +185,7 @@ export default function CreateVideogame(){
                             onChange={e => handleChange(e)}
                             className={s.input}
                             placeholder='Description'
+                            autoComplete="off"
                             />
                     </div>
                     <div className={s.error}>
@@ -198,6 +203,7 @@ export default function CreateVideogame(){
                             name='released'
                             onChange={e => handleChange(e)}
                             className={s.input}
+                            autoComplete="off"
                         />
                     </div>
                     <div className={s.error}>
@@ -219,6 +225,7 @@ export default function CreateVideogame(){
                             onChange={e => handleChange(e)}
                             className={s.input}
                             placeholder='Rating'
+                            autoComplete="off"
                         />
                     </div>
                     <div className={s.error}>
@@ -237,6 +244,7 @@ export default function CreateVideogame(){
                             onChange={e => handleChange(e)}
                             className={s.input}
                             placeholder='Image'
+                            autoComplete="off"
                         />
                     </div>
                     <div className={s.error}>
@@ -250,7 +258,7 @@ export default function CreateVideogame(){
                         <div className={s.top}>
                             <label>Genres: (max 3)</label>
                             <select onChange={e => handleSelectGenres(e)} className={s.select} disabled={input.genres.length === 3?true:false}>
-                                {genre.map(g=>(
+                                {genre && genre.map(g=>(
                                     <option key={g.id}value={g.name}>{g.name}</option>
                                     ))}
                             </select>  
@@ -261,12 +269,12 @@ export default function CreateVideogame(){
                             )}
                         </div>
                         <div className={s.bottom}>
-                            {input.genres.map((g,i) => (
+                            {input.genres.length > 0 ?input.genres.map((g,i) => (
                                 <div key={i++} className={s.selected}>
                                     <p className={s.selName}>{g}</p>
                                     <div id='genres' onClick={(e) => handleDelete(g,e.target.id)} className={s.selX}>x</div>
                                 </div>
-                            ))} 
+                            )):null} 
                         </div>
                     </div>
                 </div>
@@ -275,7 +283,7 @@ export default function CreateVideogame(){
                         <div className={s.top}>
                             <label>Platforms: (max 3)</label>
                             <select onChange={e => handleSelectPlatforms(e)} className={s.select} disabled={input.platforms.length === 3?true:false}>
-                                {platforms.map((p,i)=>(
+                                {platforms && platforms.map((p,i)=>(
                                     <option key={i++}value={p}>{p}</option>
                                     ))}
                             </select>
@@ -286,12 +294,12 @@ export default function CreateVideogame(){
                             )}
                         </div>
                         <div className={s.bottom}>
-                            {input.platforms.map((p,i) => (
+                            {input.platforms.length > 0 ? input.platforms.map((p,i) => (
                                 <div key={i++} className={s.selected}>
                                     <p className={s.selName}>{p}</p>
                                     <div id='platforms' onClick={(e) => handleDelete(p,e.target.id)} className={s.selX}>x</div>
                                 </div>
-                            ))} 
+                            )):null} 
                         </div>
                     </div>
                 </div>

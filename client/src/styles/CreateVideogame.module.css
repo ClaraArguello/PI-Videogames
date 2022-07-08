@@ -68,6 +68,7 @@
     flex-direction: row;
     width: 350px;
     margin: 7px 0px;
+    align-items: center;
 }
 
 .input{

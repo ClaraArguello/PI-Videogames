@@ -37,6 +37,7 @@ let videogameModel = {
         url = response.next;
       }
       videogameModel.videogames = [...videogamesArray];
+      return videogameModel.videogames;
     } catch (error) {
       return error.message;
     }
@@ -72,7 +73,7 @@ let videogameModel = {
   },
 
   returnApiVideogames: async function () {
-    return videogameModel.videogames;
+    return videogameModel.videogames.length > 0? videogameModel.videogames: await videogameModel.getVideogamesApi();
   },
 
   getVideogamesSearch: async function (name) {

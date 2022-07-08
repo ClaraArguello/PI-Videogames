@@ -56,16 +56,16 @@ function rootReducer (state = initialState, action){
             state.allVideogames;
             return{
                 ...state,
-                videogames: videogameFilter,
+                videogames: [...videogameFilter],
                 unsorted:[...videogameFilter]
             }
         case 'FILTER_GENRE':
             const genreFilter = action.payload !== 'all'?
-                state.allVideogames.filter(vg => vg.genres.includes(action.payload))
-            :state.allVideogames;
+                state.videogames.filter(vg => vg.genres.includes(action.payload))
+            :state.videogames;
             return{
                 ...state,
-                videogames: genreFilter,
+                videogames: [...genreFilter],
                 unsorted:[...genreFilter]
             }
         case 'SORT':
