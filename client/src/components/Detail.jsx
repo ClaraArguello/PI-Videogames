@@ -1,11 +1,13 @@
 import React,{ useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
-import { clearDetail, getDetail } from "../actions/index";
+import { Link, useParams, useHistory } from "react-router-dom";
+import { clearDetail, getDetail, deleteVideogame, getVideogames } from "../actions/index";
 import { useDispatch, useSelector } from "react-redux";
 import s from '../styles/Detail.module.css';
 
 export default function Detail(props){
     const dispatch = useDispatch();
+    const history = useHistory();
+
     const { id } = useParams();
     
     const myVideogame = useSelector((state) => state.detail);
@@ -17,6 +19,14 @@ export default function Detail(props){
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[dispatch]);
+
+    function handleDelete(e){
+        e.preventDefault();
+        dispatch(deleteVideogame(id));
+        alert('Videogame deleted successfully');
+        history.push('/videogames');
+        dispatch(getVideogames());
+    }
 
     return(
        <div>
@@ -31,6 +41,10 @@ export default function Detail(props){
                                 Go back
                             </Link>
                         </div>
+                        {id.includes('-')? 
+                            <button className={s.btnDelete} onClick={(e) => {
+                                handleDelete(e)
+                            }}>Delete Videogame</button> : null}
                         <div className={s.text}>
                             <h1 className={s.title}>{myVideogame.name}</h1>
                         </div>

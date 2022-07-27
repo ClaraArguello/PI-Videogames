@@ -43,7 +43,7 @@ export default function Home(){
             if(currentVg.length <= 0){
                 setLoading(false);
             }
-        }, 10000);
+        }, 7000);
     }
 
     load();

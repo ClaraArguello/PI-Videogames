@@ -60,6 +60,22 @@
     background-color: #003554;
 }
 
+.btnDelete{
+    text-decoration: none;
+	padding: 5px 15px;
+	border-radius: 200px;
+    position: fixed;
+    top: 7%;
+    left: 20%;
+    background-color: #006494;
+	color: #fff;
+    border-color: transparent; 
+}
+
+.btnDelete:hover{
+    background-color: #003554;
+}
+
 .title{
     display: flex;
     align-items: center;

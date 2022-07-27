@@ -96,6 +96,10 @@ function rootReducer (state = initialState, action){
                 ...state,
                 videogames: [...sorted],
             }
+        case 'DELETE_VIDEOGAME':
+            return{
+                ...state
+            }
         default:
             return state;
     }

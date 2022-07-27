@@ -1,6 +1,6 @@
 import React,{ useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { postVideogame, getGenres } from "../actions";
+import { postVideogame, getGenres, getVideogames } from "../actions";
 import { useDispatch, useSelector } from "react-redux";
 import s from '../styles/CreateVideogame.module.css';
 import { getAllPlatforms } from "../actions";
@@ -96,7 +96,8 @@ export default function CreateVideogame(){
             genres:[],
             platforms: [],
         });
-        setChange(false)
+        setChange(false);
+        dispatch(getVideogames())
 
     }
 

@@ -118,3 +118,10 @@ export function sortBy(order){
         })
     }
 }
+
+export function deleteVideogame(id){
+    return function (dispatch){
+        axios.delete(`http://localhost:3001/videogames/${id}`)
+        .catch(error => console.log(error));
+    }
+}
