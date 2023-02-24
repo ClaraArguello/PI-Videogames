@@ -10,7 +10,7 @@
 
 
 ## Demo
-Here is a working live demo :  https://videogames-clara-arguello.vercel.app/
+Here is a working live demo :  https://videogames-arguello.vercel.app/
 
 
 ## Site
