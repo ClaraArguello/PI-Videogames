@@ -3,14 +3,10 @@
 <table>
 <tr>
 <td>
- The Videogame App is an SPA, where I used an API and save the data in the backend. In the frontend I rendered each videogame with pagination and combined filters. I also added a search input, a detail route, and a POST to create a new videogame
+ The Videogame App is an SPA, where I used an API and save the data in the backend. In the frontend I rendered each videogame with pagination and combined filters. I also added a search input, a detailed route, and a POST to create a new videogame
 </td>
 </tr>
 </table>
-
-
-## Demo
-Here is a working live demo :  https://videogames-arguello.vercel.app/
 
 
 ## Site
